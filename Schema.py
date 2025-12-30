@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from datetime import date, time
 
 @dataclass
-class Race:
+class RaceData:
     id: int
     number: int
     name: str
@@ -69,38 +69,39 @@ class Entry:
     last_3f: float
     prize: float
 
-    def __init__(self, race_entry_json, result_entry_json):
-        self.id = race_entry_json["id"]
-        self.race_id = race_entry_json["race_id"]
-        self.bracket = race_entry_json["bracket"]
-        self.horse_number = race_entry_json["horse_number"]
+    def __init__(self, entry_data):
+        self.id = entry_data["id"]
+        
+        self.race_id = entry_data["race_id_x"]
+        self.bracket = entry_data["bracket_x"]
+        self.horse_number = entry_data["horse_number_x"]
 
-        self.horse_id = race_entry_json["horse_id"]
-        self.horse_name = race_entry_json["horse_name"]
-        self.gender = race_entry_json["gender"]
-        self.age = race_entry_json["age"]
+        self.horse_id = entry_data["horse_id_x"]
+        self.horse_name = entry_data["horse_name_x"]
+        self.gender = entry_data["gender_x"]
+        self.age = entry_data["age_x"]
 
-        self.burden = race_entry_json["burden"]
+        self.burden = entry_data["burden_x"]
 
-        self.jockey_id = race_entry_json["jockey_id"]
-        self.jockey_name = race_entry_json["jockey_name"]
-        self.trainer_id = race_entry_json["trainer_id"]
-        self.trainer_name = race_entry_json["trainer_name"]
+        self.jockey_id = entry_data["jockey_id_x"]
+        self.jockey_name = entry_data["jockey_name_x"]
+        self.trainer_id = entry_data["trainer_id_x"]
+        self.trainer_name = entry_data["trainer_name_x"]
 
-        self.weight = race_entry_json["weight"]
-        self.weight_diff = race_entry_json["weight_diff"]
+        self.weight = entry_data["weight_x"]
+        self.weight_diff = entry_data["weight_diff_x"]
 
         # results data
-        self.rank = result_entry_json["rank"]
-        self.rap_time = result_entry_json["rap_time"]
-        self.diff_time = result_entry_json["diff_time"]
-        self.passage_rank = result_entry_json["passage_rank"]
-        self.last_3f = result_entry_json["last_3f"]
-        self.prize = result_entry_json["prize"]
+        self.rank = entry_data["rank"]
+        self.rap_time = entry_data["rap_time"]
+        self.diff_time = entry_data["diff_time"]
+        self.passage_rank = entry_data["passage_rank"]
+        self.last_3f = entry_data["last_3f"]
+        self.prize = entry_data["prize"]
 
 
 @dataclass
-class Odds:
+class Odd:
     race_id: str
     horse_number: int
     win: float
@@ -155,3 +156,15 @@ class Horse:
         self.win = odds_json.win
         self.show_min = odds_json.show_min
         self.show_max = odds_json.show_max
+
+
+@dataclass
+class Race:
+    raceData: RaceData
+    entries: list[Entry]
+    odds: list[Odd]
+    
+    def __init__(self, raceData, entries, odds):
+        self.raceData = raceData
+        self.entries = entries
+        self.odds = odds

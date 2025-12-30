@@ -1,4 +1,5 @@
-import DataBuilder as helper
+import Utility
+import Schema
 import ast
 import pandas as pd
 
@@ -18,13 +19,13 @@ for index, row in df.iterrows():
 
     print(f"{year}, {month}")
     for id in ids:
-        race, entries = helper.get_entry(id)
-        _, result = helper.get_result(id)
-        odds = helper.get_odds(id)
+        race, entries = Utility.get_entry(id)
+        _, result = Utility.get_result(id)
+        odds = Utility.get_odds(id)
         for odd in odds:
             print(odd)
-            all_odds.append(helper.Odds(odd))
-        races.append(helper.Race(race[0]))
+            all_odds.append(Schema.Odd(odd))
+        races.append(Schema.RaceData(race[0]))
         print(races)
         break
     break
